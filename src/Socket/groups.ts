@@ -63,8 +63,8 @@ export const makeGroupsSocket = (config: SocketConfig) => {
 			}
 		}
 		
-		console.log(data)
-		if (data.length) sock.ev.emit('groups.update', Object.values(data))
+		//console.log(data)
+		//if (data.length) sock.ev.emit('groups.update', Object.values(data))
 
 		return data
 	}
