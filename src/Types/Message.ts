@@ -238,6 +238,8 @@ export type MediaGenerationOptions = {
     backgroundColor?: string
     
     font?: number
+    
+    waveform?: Uint8Array
 }
 export type MessageContentGenerationOptions = MediaGenerationOptions & {
 	getUrlInfo?: (text: string) => Promise<WAUrlInfo | undefined>
