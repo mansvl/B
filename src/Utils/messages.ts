@@ -161,10 +161,6 @@ export const prepareWAMessageMedia = async(
 										(typeof uploadData['jpegThumbnail'] === 'undefined')
 	const requiresOriginalForSomeProcessing = requiresDurationComputation || requiresThumbnailComputation
 	
-	console.log({
-		mediaType,
-		requiresWaveformProcessing
-	})
 	const {
 		mediaKey,
 		encWriteStream,
@@ -214,11 +210,19 @@ export const prepareWAMessageMedia = async(
 					uploadData.seconds = await getAudioDuration(bodyPath!)
 					logger?.debug('computed audio duration')
 				}
+				
 				if(requiresWaveformProcessing) {
 					uploadData.waveform = options.waveform || await getAudioWaveform(bodyPath!, logger)
 					logger?.debug('processed waveform')
 					//console.log("processed waveform success: ", uploadData, options)
 				}
+				
+				console.log({
+					mediaType,
+					requiresWaveformProcessing,
+					waveform: uploadData.waveform
+				})
+				
 				if(requiresAudioBackground) {
 					uploadData.backgroundArgb = await assertColor(options.backgroundColor)
 					logger?.debug('computed backgroundColor audio status')
