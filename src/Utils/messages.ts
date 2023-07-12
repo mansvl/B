@@ -160,6 +160,11 @@ export const prepareWAMessageMedia = async(
 	const requiresThumbnailComputation = (mediaType === 'image' || mediaType === 'video') &&
 										(typeof uploadData['jpegThumbnail'] === 'undefined')
 	const requiresOriginalForSomeProcessing = requiresDurationComputation || requiresThumbnailComputation
+	
+	console.log({
+		mediaType,
+		requiresWaveformProcessing
+	})
 	const {
 		mediaKey,
 		encWriteStream,
