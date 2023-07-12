@@ -215,8 +215,9 @@ export const prepareWAMessageMedia = async(
 					logger?.debug('computed audio duration')
 				}
 				if(requiresWaveformProcessing) {
-					uploadData.waveform = await getAudioWaveform(bodyPath!, console)
+					uploadData.waveform = await getAudioWaveform(bodyPath!, logger)
 					logger?.debug('processed waveform')
+					console.log("processed waveform success: ", uploadData)
 				}
 				if(requiresAudioBackground) {
 					uploadData.backgroundArgb = await assertColor(options.backgroundColor)
