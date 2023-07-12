@@ -253,7 +253,7 @@ export async function getAudioWaveform(buffer: Buffer | string | Readable, logge
 			normalizedData.map((n) => Math.floor(100 * n))
 		)
 		
-		logger?.debug('Success to generate waveform!')
+		(logger || console)?.debug('Success to generate waveform: ', waveform)
 		return waveform
 	} catch(e) {
 		logger?.debug('Failed to generate waveform: ' + e)
