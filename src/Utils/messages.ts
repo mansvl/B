@@ -57,7 +57,7 @@ const MessageTypeProto = {
 	'video': WAProto.Message.VideoMessage,
 	'audio': WAProto.Message.AudioMessage,
 	'sticker': WAProto.Message.StickerMessage,
-   	'document': WAProto.Message.DocumentMessage,
+	'document': WAProto.Message.DocumentMessage,
 } as const
 
 const ButtonType = proto.Message.ButtonsMessage.HeaderType
