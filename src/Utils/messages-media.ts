@@ -214,21 +214,11 @@ export const toReadable = (buffer: Buffer) => {
 /**
  *referenced from and modifying https://github.com/wppconnect-team/wa-js/blob/main/src/chat/functions/prepareAudioWaveform.ts
  */
-export async function getAudioWaveform(buffer: Buffer | string | Readable, logger?: Logger) {
+export async function getAudioWaveform(bodyPath: string, logger?: Logger) {
 	  try {
-		const audioDecode = (...args) => import('audio-decode').then(({ default: audioDecode }) => audioDecode(...args))
-		
-		let audioData: Buffer
-		if(Buffer.isBuffer(buffer)) {
-			audioData = buffer
-		} else if(typeof buffer === 'string') {
-			const rStream = createReadStream(buffer)
-			audioData = await toBuffer(rStream)
-		} else {
-			audioData = await toBuffer(buffer)
-		}
-
-		const audioBuffer = await audioDecode(audioData)
+		const { default: audioDecode } = await import('audio-decode')
+		const fileBuffer = await fs.readFile(bodyPath)
+		const audioBuffer = await audioDecode.default(fileBuffer)
 
 		const rawData = audioBuffer.getChannelData(0) // We only need to work with one channel of data
 		const samples = 64 // Number of samples we want to have in our final data set
@@ -253,7 +243,7 @@ export async function getAudioWaveform(buffer: Buffer | string | Readable, logge
 			normalizedData.map((n) => Math.floor(100 * n))
 		)
 		
-		//console.log('Success to generate waveform: ', waveform || '')
+		console.log('Success to generate waveform: ', waveform || '')
 		return waveform
 	} catch(e) {
 		logger?.debug('Failed to generate waveform: ' + e)
