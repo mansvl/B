@@ -1,5 +1,4 @@
 import { Boom } from '@hapi/boom'
-import parsePhoneNumber from 'libphonenumber-js'
 import NodeCache from 'node-cache'
 import readline from 'readline'
 import makeWASocket, { AnyMessageContent, delay, DisconnectReason, fetchLatestBaileysVersion, getAggregateVotesInPollMessage, makeCacheableSignalKeyStore, makeInMemoryStore, PHONENUMBER_MCC, proto, useMultiFileAuthState, WAMessageContent, WAMessageKey } from '../src'
@@ -57,6 +56,7 @@ const startSock = async() => {
 
 	// If mobile was chosen, ask for the code
 	if(useMobile && !sock.authState.creds.registered) {
+		const { default: parsePhoneNumber } = await import('libphonenumber-js')
 		const question = (text: string) => new Promise<string>((resolve) => rl.question(text, resolve))
 
 		const rl = readline.createInterface({ input: process.stdin, output: process.stdout })
