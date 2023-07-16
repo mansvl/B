@@ -4909,9 +4909,9 @@ libphonenumber-js@^1.10.20:
   resolved "https://registry.npmjs.org/libphonenumber-js/-/libphonenumber-js-1.10.28.tgz"
   integrity sha512-1eAgjLrZA0+2Wgw4hs+4Q/kEBycxQo8ZLYnmOvZ3AlM8ImAVAJgDPlZtISLEzD1vunc2q8s2Pn7XwB7I8U3Kzw==
 
-"libsignal@github:adiwajshing/libsignal-node":
+"libsignal@github:fokusdotid/libsignal-node":
   version "2.0.1"
-  resolved "https://codeload.github.com/adiwajshing/libsignal-node/tar.gz/11dbd962ea108187c79a7c46fe4d6f790e23da97"
+  resolved "https://codeload.github.com/fokusdotid/libsignal-node/tar.gz/aeb04adc1a261875634ff715abbc51cc002c9b54"
   dependencies:
     curve25519-js "^0.0.4"
     protobufjs "6.8.8"
