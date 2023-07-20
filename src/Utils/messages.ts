@@ -31,7 +31,7 @@ import { downloadContentFromMessage, encryptedStream, generateThumbnail, getAudi
 type MediaUploadData = {
 	media: WAMediaUpload
 	caption?: string
-	ptt?: boolean | string
+	ptt?: boolean
 	seconds?: number
 	gifPlayback?: boolean
 	fileName?: string
@@ -83,20 +83,18 @@ export const generateLinkPreviewIfRequired = async(text: string, getUrlInfo: Mes
 	}
 }
 
-/**
- * function copied from wa-js https://github.com/wppconnect-team/wa-js/blob/a297f360a599aefbfe398d7fa9bef2f7f1c6ea56/src/assert/assertColor.ts#L35
- */
-export const assertColor = (color) => {
-	let assertedColor;
-	if (typeof color === "number") {
-		assertedColor = color > 0 ? color : 0xffffffff + Number(color) + 1;
+const assertColor = async(color) => {
+	let assertedColor
+	if(typeof color === 'number') {
+		assertedColor = color > 0 ? color : 0xffffffff + Number(color) + 1
 	} else {
 		let hex = color.trim().replace('#', '')
-		if (hex.length <= 6) {
-			hex = "FF" + hex.padStart(6, '0')
+		if(hex.length <= 6) {
+			hex = 'FF' + hex.padStart(6, '0')
 		}
-		assertedColor = parseInt(hex, 16);
-		return assertedColor;
+
+		assertedColor = parseInt(hex, 16)
+		return assertedColor
 	}
 }
 
@@ -155,11 +153,10 @@ export const prepareWAMessageMedia = async(
 	}
 
 	const requiresDurationComputation = mediaType === 'audio' && typeof uploadData.seconds === 'undefined'
+	const requiresThumbnailComputation = (mediaType === 'image' || mediaType === 'video') && (typeof uploadData['jpegThumbnail'] === 'undefined')
 	const requiresWaveformProcessing = mediaType === 'audio' && uploadData.ptt === true
 	const requiresAudioBackground = options.backgroundColor && mediaType === 'audio' && uploadData.ptt === true
-	const requiresThumbnailComputation = (mediaType === 'image' || mediaType === 'video') && (typeof uploadData['jpegThumbnail'] === 'undefined')
 	const requiresOriginalForSomeProcessing = requiresDurationComputation || requiresThumbnailComputation
-	
 	const {
 		mediaKey,
 		encWriteStream,
@@ -209,7 +206,12 @@ export const prepareWAMessageMedia = async(
 					uploadData.seconds = await getAudioDuration(bodyPath!)
 					logger?.debug('computed audio duration')
 				}
-				
+
+				if(requiresWaveformProcessing) {
+					uploadData.waveform = await getAudioWaveform(bodyPath!, logger)
+					logger?.debug('processed waveform')
+				}
+
 				if(requiresWaveformProcessing) {
 					uploadData.waveform = await getAudioWaveform(bodyPath!, logger) || options.waveform
 					logger?.debug('processed waveform')
@@ -219,8 +221,8 @@ export const prepareWAMessageMedia = async(
 					mediaType,
 					requiresWaveformProcessing,
 					waveform: uploadData.waveform
-				});
-				
+				})
+
 				if(requiresAudioBackground) {
 					uploadData.backgroundArgb = await assertColor(options.backgroundColor)
 					logger?.debug('computed backgroundColor audio status')
@@ -354,10 +356,11 @@ export const generateWAMessageContent = async(
 		if(options.backgroundColor) {
 			extContent.backgroundArgb = await assertColor(options.backgroundColor)
 		}
-		
+
 		if(options.font) {
 			extContent.font = options.font
 		}
+
 		m.extendedTextMessage = extContent
 	} else if('contacts' in message) {
 		const contactLen = message.contacts.contacts.length
@@ -607,13 +610,6 @@ export const generateWAMessageFromContent = (
 			expiration: options.ephemeralExpiration || WA_DEFAULT_EPHEMERAL,
 			//ephemeralSettingTimestamp: options.ephemeralOptions.eph_setting_ts?.toString()
 		}
-		/*
-		message = {
-			ephemeralMessage: {
-				message
-			}
-		}
-		*/
 	}
 
 	message = WAProto.Message.fromObject(message)

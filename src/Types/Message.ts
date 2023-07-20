@@ -213,7 +213,7 @@ export type MiscMessageGenerationOptions = MinimalRelayOptions & {
     mediaUploadTimeoutMs?: number
     /** jid list of participants for status@broadcast */
     statusJidList?: string[]
-    /** background color for status */
+    /** backgroundcolor for status */
     backgroundColor?: string
     /** font type for status */
     font?: number
@@ -234,9 +234,9 @@ export type MediaGenerationOptions = {
     mediaUploadTimeoutMs?: number
 
     options?: AxiosRequestConfig
-    
+
     backgroundColor?: string
-    
+
     font?: number
     
     waveform?: Uint8Array

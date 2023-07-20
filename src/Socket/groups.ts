@@ -62,9 +62,6 @@ export const makeGroupsSocket = (config: SocketConfig) => {
 				data[meta.id] = meta
 			}
 		}
-		
-		//console.log(data)
-		//if (data.length) sock.ev.emit('groups.update', Object.values(data))
 
 		return data
 	}

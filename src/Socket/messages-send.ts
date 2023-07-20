@@ -309,15 +309,15 @@ export const makeMessagesSocket = (config: SocketConfig) => {
 		let shouldIncludeDeviceIdentity = false
 
 		const { user, server } = jidDecode(jid)!
-		const status_jid = "status@broadcast"
+		const statusJid = 'status@broadcast'
 		const isGroup = server === 'g.us'
-		const isStatus = jid === status_jid
-		
+		const isStatus = jid === statusJid
+
 		msgId = msgId || generateMessageID()
 		useUserDevicesCache = useUserDevicesCache !== false
 
 		const participants: BinaryNode[] = []
-		const destinationJid = (!isStatus) ? jidEncode(user, isGroup ? 'g.us' : 's.whatsapp.net') : status_jid
+		const destinationJid = (!isStatus) ? jidEncode(user, isGroup ? 'g.us' : 's.whatsapp.net') : statusJid
 		const binaryNodeContent: BinaryNode[] = []
 		const devices: JidWithDevice[] = []
 
@@ -369,9 +369,10 @@ export const makeMessagesSocket = (config: SocketConfig) => {
 
 					if(!participant) {
 						const participantsList = (groupData && !isStatus) ? groupData.participants.map(p => p.id) : []
-						if (isStatus && statusJidList) {
+						if(isStatus && statusJidList) {
 							participantsList.push(...statusJidList)
 						}
+
 						const additionalDevices = await getUSyncDevices(participantsList, !!useUserDevicesCache, false)
 						devices.push(...additionalDevices)
 					}
