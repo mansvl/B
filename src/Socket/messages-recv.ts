@@ -306,7 +306,7 @@ export const makeMessagesRecvSocket = (config: SocketConfig) => {
 		//	break
 		case 'membership_approval_mode':
 			msg.messageStubType = WAMessageStubType.GROUP_MEMBERSHIP_JOIN_APPROVAL_MODE
-			msg.messageStubParameters = [ child.content?.[0].state ]
+			msg.messageStubParameters = [ child.content?.[0]?.state ]
 			break
 		default:
 			console.log("BAILEYS-DEBUG:", JSON.stringify(child, null, 4))
