@@ -376,16 +376,6 @@ export const generateWAMessageContent = async(
 		}
 
 		m.reactionMessage = WAProto.Message.ReactionMessage.fromObject(message.react)
-	} else if ('pinMessage' in message) {
-		m.messageContextInfo = {
-			messageAddOnDurationInSecs = message.pinMessage.duration
-		}
-		
-		if (!message.pinMessage.pinInChatMessage.senderTimestampMs) {
-			message.pinMessage.pinInChatMessage.senderTimestampMs = Date.now()
-		}
-		
-		m.pinInChatMessage = WAProto.Message.PinInChatMessage.fromObject(message.pinMessage.pinInChatMessage)
 	} else if('delete' in message) {
 		m.protocolMessage = {
 			key: message.delete,
@@ -655,7 +645,7 @@ export const generateWAMessage = async(
 export const getContentType = (content: WAProto.IMessage | undefined) => {
 	if(content) {
 		const keys = Object.keys(content)
-		const key = keys.find(k => (k === 'conversation' || k.includes('Message')) && k !== 'senderKeyDistributionMessage')
+		const key = keys.find(k => (k === 'conversation' || k.endsWith('Message')) && k !== 'senderKeyDistributionMessage')
 		return key as keyof typeof content
 	}
 }

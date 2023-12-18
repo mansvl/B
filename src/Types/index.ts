@@ -23,9 +23,7 @@ export enum DisconnectReason {
 	loggedOut = 401,
     badSession = 500,
     restartRequired = 515,
-    multideviceMismatch = 411,
-    blockedNumber = 403,
-    unavailableService = 503
+    multideviceMismatch = 411
 }
 
 export type WAInitResponse = {
