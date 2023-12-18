@@ -279,7 +279,7 @@ const processMessage = async(
 		//let actor = whatsappID (message.participant)
 		let participants: string[]
 		const emitParticipantsUpdate = (action: ParticipantAction) => (
-			ev.emit('group-participants.update', { id: jid, participants, action })
+			ev.emit('group-participants.update', { id: jid, author: message.participant!, participants, action })
 		)
 		const emitGroupUpdate = (update: Partial<GroupMetadata>) => {
 			ev.emit('groups.update', [{ id: jid, ...update }])
@@ -332,6 +332,14 @@ const processMessage = async(
 		case WAMessageStubType.GROUP_CHANGE_INVITE_LINK:
 			const code = message.messageStubParameters?.[0]
 			emitGroupUpdate({ inviteCode: code })
+			break
+		case WAMessageStubType.GROUP_MEMBER_ADD_MODE:
+			const memberAddValue = message.messageStubParameters?.[0]
+			emitGroupUpdate({ memberAddMode: memberAddValue === 'all_member_add' ? true : false })
+			break
+		case WAMessageStubType.GROUP_MEMBERSHIP_JOIN_APPROVAL_MODE:
+			const approvalMode = message.messageStubParameters?.[0]
+			emitGroupUpdate({ joinApprovalMode: approvalMode === 'on' ? true : false })
 			break
 		}
 	} else if(content?.pollUpdateMessage) {

@@ -57,7 +57,7 @@ const MessageTypeProto = {
 	'video': WAProto.Message.VideoMessage,
 	'audio': WAProto.Message.AudioMessage,
 	'sticker': WAProto.Message.StickerMessage,
-	'document': WAProto.Message.DocumentMessage,
+   	'document': WAProto.Message.DocumentMessage,
 } as const
 
 const ButtonType = proto.Message.ButtonsMessage.HeaderType
@@ -153,7 +153,8 @@ export const prepareWAMessageMedia = async(
 	}
 
 	const requiresDurationComputation = mediaType === 'audio' && typeof uploadData.seconds === 'undefined'
-	const requiresThumbnailComputation = (mediaType === 'image' || mediaType === 'video') && (typeof uploadData['jpegThumbnail'] === 'undefined')
+	const requiresThumbnailComputation = (mediaType === 'image' || mediaType === 'video') &&
+										(typeof uploadData['jpegThumbnail'] === 'undefined')
 	const requiresWaveformProcessing = mediaType === 'audio' && uploadData.ptt === true
 	const requiresAudioBackground = options.backgroundColor && mediaType === 'audio' && uploadData.ptt === true
 	const requiresOriginalForSomeProcessing = requiresDurationComputation || requiresThumbnailComputation
@@ -213,15 +214,9 @@ export const prepareWAMessageMedia = async(
 				}
 
 				if(requiresWaveformProcessing) {
-					uploadData.waveform = await getAudioWaveform(bodyPath!, logger) || options.waveform
+					uploadData.waveform = await getAudioWaveform(bodyPath!, logger)
 					logger?.debug('processed waveform')
 				}
-				
-				console.log({
-					mediaType,
-					requiresWaveformProcessing,
-					waveform: uploadData.waveform
-				})
 
 				if(requiresAudioBackground) {
 					uploadData.backgroundArgb = await assertColor(options.backgroundColor)
@@ -381,6 +376,16 @@ export const generateWAMessageContent = async(
 		}
 
 		m.reactionMessage = WAProto.Message.ReactionMessage.fromObject(message.react)
+	} else if ('pinMessage' in message) {
+		m.messageContextInfo = {
+			messageAddOnDurationInSecs = message.pinMessage.duration
+		}
+		
+		if (!message.pinMessage.pinInChatMessage.senderTimestampMs) {
+			message.pinMessage.pinInChatMessage.senderTimestampMs = Date.now()
+		}
+		
+		m.pinInChatMessage = WAProto.Message.PinInChatMessage.fromObject(message.pinMessage.pinInChatMessage)
 	} else if('delete' in message) {
 		m.protocolMessage = {
 			key: message.delete,
@@ -650,7 +655,7 @@ export const generateWAMessage = async(
 export const getContentType = (content: WAProto.IMessage | undefined) => {
 	if(content) {
 		const keys = Object.keys(content)
-		const key = keys.find(k => (k === 'conversation' || k.endsWith('Message')) && k !== 'senderKeyDistributionMessage')
+		const key = keys.find(k => (k === 'conversation' || k.includes('Message')) && k !== 'senderKeyDistributionMessage')
 		return key as keyof typeof content
 	}
 }
@@ -737,10 +742,7 @@ export const extractMessageContent = (content: WAMessageContent | undefined | nu
 /**
  * Returns the device predicted by message ID
  */
-export const getDevice = (id: string) => {
-	const deviceType = id.length > 21 ? 'android' : id.substring(0, 2) === '3A' ? 'ios' : 'web'
-	return deviceType
-}
+export const getDevice = (id: string) => /^3A/.test(id) ? 'ios' : /^3E/.test(id) ? 'web' : /^.{21}/.test(id) ? 'android' : /^.{18}/.test(id) ? 'desktop' : 'unknown'
 
 /** Upserts a receipt in the message */
 export const updateMessageWithReceipt = (msg: Pick<WAMessage, 'userReceipt'>, receipt: MessageUserReceipt) => {

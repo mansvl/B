@@ -300,6 +300,14 @@ export const makeMessagesRecvSocket = (config: SocketConfig) => {
 			msg.messageStubType = WAMessageStubType.GROUP_CHANGE_INVITE_LINK
 			msg.messageStubParameters = [ child.attrs.code ]
 			break
+		case 'member_add_mode':
+			msg.messageStubType = WAMessageStubType.GROUP_MEMBER_ADD_MODE
+			msg.messageStubParameters = [ child.content.toString() ]
+			break
+		case 'membership_approval_mode:
+			msg.messageStubType = WAMessageStubType.GROUP_MEMBERSHIP_JOIN_APPROVAL_MODE
+			msg.messageStubParameters = [ child.content[0].attrs.state ]
+			break
 		}
 	}
 
@@ -392,7 +400,16 @@ export const makeMessagesRecvSocket = (config: SocketConfig) => {
 						},
 					}
 				})
-			}
+			} else if (child.tag === 'blocklist') {
+				const blocklists = getBinaryNodeChildren(child, 'item')
+
+				for(const { attrs } of blocklists) {
+						const blocklist = [attrs.jid]
+						const type = (attrs.action === 'block') ? 'add' : 'remove'
+
+						ev.emit('blocklist.update', { blocklist, type })
+				}
+		}
 
 			break
 		case 'link_code_companion_reg':

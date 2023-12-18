@@ -209,7 +209,7 @@ export async function getAudioDuration(buffer: Buffer | string | Readable) {
  */
 export async function getAudioWaveform(buffer: Buffer | string | Readable, logger?: Logger) {
 	try {
-		const { default: audioDecode } = await import('audio-decode')
+		const audioDecode = (...args) => import('audio-decode').then(({ default: audioDecode }) => audioDecode(...args))
 		let audioData: Buffer
 		if(Buffer.isBuffer(buffer)) {
 			audioData = buffer
@@ -244,12 +244,7 @@ export async function getAudioWaveform(buffer: Buffer | string | Readable, logge
 		const waveform = new Uint8Array(
 			normalizedData.map((n) => Math.floor(100 * n))
 		)
-		
-		console.log("success to generate waveform: ", {
-			seconds: Math.floor(audioBuffer.duration),
-			waveform
-		})
-		
+
 		return waveform
 	} catch(e) {
 		logger?.debug('Failed to generate waveform: ' + e)

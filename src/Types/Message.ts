@@ -157,6 +157,11 @@ export type AnyRegularMessageContent = (
         location: WALocationMessage
     }
     | { react: proto.Message.IReactionMessage }
+    | { pinMessage: {
+    		pinInChatMessage: proto.Message.IPinInChatMessage
+    		duration: number
+    	}
+    }
     | {
         buttonReply: ButtonReplyInfo
         type: 'template' | 'plain'
@@ -238,8 +243,6 @@ export type MediaGenerationOptions = {
     backgroundColor?: string
 
     font?: number
-    
-    waveform?: Uint8Array
 }
 export type MessageContentGenerationOptions = MediaGenerationOptions & {
 	getUrlInfo?: (text: string) => Promise<WAUrlInfo | undefined>
