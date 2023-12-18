@@ -304,7 +304,7 @@ export const makeMessagesRecvSocket = (config: SocketConfig) => {
 			msg.messageStubType = WAMessageStubType.GROUP_MEMBER_ADD_MODE
 			msg.messageStubParameters = [ child.content.toString() ]
 			break
-		case 'membership_approval_mode:
+		case 'membership_approval_mode':
 			msg.messageStubType = WAMessageStubType.GROUP_MEMBERSHIP_JOIN_APPROVAL_MODE
 			msg.messageStubParameters = [ child.content[0].attrs.state ]
 			break
