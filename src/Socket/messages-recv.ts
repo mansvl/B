@@ -300,17 +300,20 @@ export const makeMessagesRecvSocket = (config: SocketConfig) => {
 			msg.messageStubType = WAMessageStubType.GROUP_CHANGE_INVITE_LINK
 			msg.messageStubParameters = [ child.attrs.code ]
 			break
-		//case 'member_add_mode':
-		//	msg.messageStubType = WAMessageStubType.GROUP_MEMBER_ADD_MODE
-		//	msg.messageStubParameters = [ child.content.toString() ]
-		//	break
+		case 'member_add_mode':
+			const content = (Buffer.isBuffer(child.content) ? child.content.toString() : '');
+			console.log("content:", content);
+			msg.messageStubType = WAMessageStubType.GROUP_MEMBER_ADD_MODE
+			msg.messageStubParameters = [ content ]
+			break
 		case 'membership_approval_mode':
-			const content = child?.content?.[0];
-			console.log(content)
-			//msg.messageStubType = WAMessageStubType.GROUP_MEMBERSHIP_JOIN_APPROVAL_MODE
-			//msg.messageStubParameters = [ child.content?.[0]?.state ]
+			const state = (Array.isArray(child.content) && child.content[0] && child.content[0].attrs?.state) || "";
+			msg.messageStubType = WAMessageStubType.GROUP_MEMBERSHIP_JOIN_APPROVAL_MODE
+			msg.messageStubParameters = [ state ];
 			break
 		default:
+			let konten = Buffer.isBuffer(child.content) ? child.content.toString() : child.content;
+			child = { ...child, content: konten };
 			console.log("BAILEYS-DEBUG:", JSON.stringify(child, null, 4))
 		}
 	}

@@ -158,6 +158,12 @@ export type AnyRegularMessageContent = (
     }
     | { react: proto.Message.IReactionMessage }
     | {
+        pinMessage: {
+            pinInChatMessage: proto.Message.IPinInChatMessage
+            duration: number
+        }
+    }
+    | {
         buttonReply: ButtonReplyInfo
         type: 'template' | 'plain'
     }
