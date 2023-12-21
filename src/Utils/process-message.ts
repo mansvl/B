@@ -334,8 +334,8 @@ const processMessage = async(
 			emitGroupUpdate({ inviteCode: code })
 			break
 		case WAMessageStubType.GROUP_MEMBER_ADD_MODE:
-			const memberAddValue = message.messageStubParameters?.[0]
-			emitGroupUpdate({ memberAddMode: memberAddValue === 'all_member_add' ? true : false })
+			const memberAddMode = message.messageStubParameters?.[0]
+			emitGroupUpdate({ memberAddMode: (memberAddMode === 'on' ? true : false) })
 			break
 		case WAMessageStubType.GROUP_MEMBERSHIP_JOIN_APPROVAL_MODE:
 			const approvalMode = message.messageStubParameters?.[0]

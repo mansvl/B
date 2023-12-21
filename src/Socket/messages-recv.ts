@@ -301,20 +301,32 @@ export const makeMessagesRecvSocket = (config: SocketConfig) => {
 			msg.messageStubParameters = [ child.attrs.code ]
 			break
 		case 'member_add_mode':
-			const content = (Buffer.isBuffer(child.content) ? child.content.toString() : '');
-			console.log("content:", content);
+			const memberAddMode = (Buffer.isBuffer(child.content) ? child.content.toString() : '');
 			msg.messageStubType = WAMessageStubType.GROUP_MEMBER_ADD_MODE
-			msg.messageStubParameters = [ content ]
+			msg.messageStubParameters = [ memberAddMode === 'all_member_add' ? 'on' : 'off' ]
 			break
 		case 'membership_approval_mode':
-			const state = (Array.isArray(child.content) && child.content[0] && child.content[0].attrs?.state) || "";
+			const approvalMode = getBinaryNodeChildren(child, 'group_join').map(p => p.attrs.state)
 			msg.messageStubType = WAMessageStubType.GROUP_MEMBERSHIP_JOIN_APPROVAL_MODE
-			msg.messageStubParameters = [ state ];
+			msg.messageStubParameters = approvalMode
+			break
+		case 'membership_approval_request':
+		case 'created_membership_requests':
+			const request_method = child.attrs.request_method
+			if(request_method === 'invite_link') {
+				msg.messageStubType = WAMessageStubType.GROUP_MEMBERSHIP_JOIN_APPROVAL_REQUEST
+				msg.messageStubParameters = [ participant ]
+			} else if(request_method === 'non_admin_add') {
+				const participants = getBinaryNodeChildren(child, 'requested_user').map(p => p.attrs.jid)
+				msg.messageStubType = WAMessageStubType.GROUP_MEMBERSHIP_JOIN_APPROVAL_REQUEST_NON_ADMIN_ADD
+				msg.messageStubParameters = participants
+			}
+			
 			break
 		default:
-			let konten = Buffer.isBuffer(child.content) ? child.content.toString() : child.content;
+			const konten = Buffer.isBuffer(child.content) ? child.content.toString() : child.content;
 			child = { ...child, content: konten };
-			console.log("BAILEYS-DEBUG:", JSON.stringify(child, null, 4))
+			console.log("BAILEYS-DEBUG:", JSON.stringify({ ...child, participant }, null, 2))
 		}
 	}
 
