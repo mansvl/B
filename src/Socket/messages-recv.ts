@@ -311,7 +311,6 @@ export const makeMessagesRecvSocket = (config: SocketConfig) => {
 			msg.messageStubParameters = approvalMode
 			break
 		case 'membership_approval_request':
-		case 'created_membership_requests':
 			const request_method = child.attrs.request_method
 			if(request_method === 'invite_link') {
 				msg.messageStubType = WAMessageStubType.GROUP_MEMBERSHIP_JOIN_APPROVAL_REQUEST
