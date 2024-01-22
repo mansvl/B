@@ -1,5 +1,7 @@
 import makeWASocket from './Socket'
 
+export { proto } from '../WAProto'
+
 export * from '../WAProto'
 export * from './Utils'
 export * from './Types'
