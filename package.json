@@ -12,9 +12,9 @@
     "automation",
     "multi-device"
   ],
-  "homepage": "https://github.com/DellyaOktavani/B",
+  "homepage": "https://github.com/WhiskeySockets/Baileys",
   "repository": {
-    "url": "git@github.com:DellyaOktavani/B.git"
+    "url": "git+ssh://git@github.com/DellyaOktavani/B.git"
   },
   "license": "MIT",
   "author": "Adhiraj Singh",
@@ -38,7 +38,6 @@
     "lint:fix": "eslint src --fix --ext .js,.ts,.jsx,.tsx",
     "prepack": "tsc",
     "prepare": "tsc",
-    "release": ["git update-index -q --refresh", "release-it"],
     "test": "jest"
   },
   "dependencies": {
