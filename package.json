@@ -1,6 +1,6 @@
 {
   "name": "@fokusid/baileys",
-  "version": "6.6.0",
+  "version": "6.6.1",
   "description": "WhatsApp API",
   "keywords": [
     "whatsapp",
@@ -38,7 +38,10 @@
     "lint:fix": "eslint src --fix --ext .js,.ts,.jsx,.tsx",
     "prepack": "tsc",
     "prepare": "tsc",
-    "release": ["git update-index -q --refresh", "release-it"],
+    "release": [
+      "git update-index -q --refresh",
+      "release-it"
+    ],
     "test": "jest"
   },
   "dependencies": {
