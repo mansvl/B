@@ -12,9 +12,9 @@
     "automation",
     "multi-device"
   ],
-  "homepage": "https://github.com/DellyaOktavani/Baileys",
+  "homepage": "https://github.com/WhiskeySockets/Baileys",
   "repository": {
-    "url": "git+ssh://git@github.com/DellyaOktavani/B.git"
+    "url": "git+ssh://git@github.com/WhiskeySockets/Baileys.git"
   },
   "license": "MIT",
   "author": "Adhiraj Singh",
