@@ -1480,6 +1480,9 @@ export namespace proto {
 
         /** BotPluginMetadata pluginVersion */
         pluginVersion?: (number|null);
+
+        /** BotPluginMetadata searchQuery */
+        searchQuery?: (string|null);
     }
 
     /** Represents a BotPluginMetadata. */
@@ -1514,6 +1517,9 @@ export namespace proto {
 
         /** BotPluginMetadata pluginVersion. */
         public pluginVersion: number;
+
+        /** BotPluginMetadata searchQuery. */
+        public searchQuery: string;
 
         /**
          * Creates a new BotPluginMetadata instance using the specified properties.
@@ -9797,6 +9803,9 @@ export namespace proto {
         /** Message eventMessage */
         eventMessage?: (proto.Message.IEventMessage|null);
 
+        /** Message encEventResponseMessage */
+        encEventResponseMessage?: (proto.Message.IEncEventResponseMessage|null);
+
         /** Message commentMessage */
         commentMessage?: (proto.Message.ICommentMessage|null);
 
@@ -9809,8 +9818,8 @@ export namespace proto {
         /** Message placeholderMessage */
         placeholderMessage?: (proto.Message.IPlaceholderMessage|null);
 
-        /** Message encEventUpdateMessage */
-        encEventUpdateMessage?: (proto.Message.IEncEventUpdateMessage|null);
+        /** Message secretEncryptedMessage */
+        secretEncryptedMessage?: (proto.Message.ISecretEncryptedMessage|null);
     }
 
     /** Represents a Message. */
@@ -10011,6 +10020,9 @@ export namespace proto {
         /** Message eventMessage. */
         public eventMessage?: (proto.Message.IEventMessage|null);
 
+        /** Message encEventResponseMessage. */
+        public encEventResponseMessage?: (proto.Message.IEncEventResponseMessage|null);
+
         /** Message commentMessage. */
         public commentMessage?: (proto.Message.ICommentMessage|null);
 
@@ -10023,8 +10035,8 @@ export namespace proto {
         /** Message placeholderMessage. */
         public placeholderMessage?: (proto.Message.IPlaceholderMessage|null);
 
-        /** Message encEventUpdateMessage. */
-        public encEventUpdateMessage?: (proto.Message.IEncEventUpdateMessage|null);
+        /** Message secretEncryptedMessage. */
+        public secretEncryptedMessage?: (proto.Message.ISecretEncryptedMessage|null);
 
         /**
          * Creates a new Message instance using the specified properties.
@@ -13115,103 +13127,103 @@ export namespace proto {
             public toJSON(): { [k: string]: any };
         }
 
-        /** Properties of an EncEventUpdateMessage. */
-        interface IEncEventUpdateMessage {
+        /** Properties of an EncEventResponseMessage. */
+        interface IEncEventResponseMessage {
 
-            /** EncEventUpdateMessage eventCreationMessageKey */
+            /** EncEventResponseMessage eventCreationMessageKey */
             eventCreationMessageKey?: (proto.IMessageKey|null);
 
-            /** EncEventUpdateMessage encPayload */
+            /** EncEventResponseMessage encPayload */
             encPayload?: (Uint8Array|null);
 
-            /** EncEventUpdateMessage encIv */
+            /** EncEventResponseMessage encIv */
             encIv?: (Uint8Array|null);
         }
 
-        /** Represents an EncEventUpdateMessage. */
-        class EncEventUpdateMessage implements IEncEventUpdateMessage {
+        /** Represents an EncEventResponseMessage. */
+        class EncEventResponseMessage implements IEncEventResponseMessage {
 
             /**
-             * Constructs a new EncEventUpdateMessage.
+             * Constructs a new EncEventResponseMessage.
              * @param [properties] Properties to set
              */
-            constructor(properties?: proto.Message.IEncEventUpdateMessage);
+            constructor(properties?: proto.Message.IEncEventResponseMessage);
 
-            /** EncEventUpdateMessage eventCreationMessageKey. */
+            /** EncEventResponseMessage eventCreationMessageKey. */
             public eventCreationMessageKey?: (proto.IMessageKey|null);
 
-            /** EncEventUpdateMessage encPayload. */
+            /** EncEventResponseMessage encPayload. */
             public encPayload: Uint8Array;
 
-            /** EncEventUpdateMessage encIv. */
+            /** EncEventResponseMessage encIv. */
             public encIv: Uint8Array;
 
             /**
-             * Creates a new EncEventUpdateMessage instance using the specified properties.
+             * Creates a new EncEventResponseMessage instance using the specified properties.
              * @param [properties] Properties to set
-             * @returns EncEventUpdateMessage instance
+             * @returns EncEventResponseMessage instance
              */
-            public static create(properties?: proto.Message.IEncEventUpdateMessage): proto.Message.EncEventUpdateMessage;
+            public static create(properties?: proto.Message.IEncEventResponseMessage): proto.Message.EncEventResponseMessage;
 
             /**
-             * Encodes the specified EncEventUpdateMessage message. Does not implicitly {@link proto.Message.EncEventUpdateMessage.verify|verify} messages.
-             * @param message EncEventUpdateMessage message or plain object to encode
+             * Encodes the specified EncEventResponseMessage message. Does not implicitly {@link proto.Message.EncEventResponseMessage.verify|verify} messages.
+             * @param message EncEventResponseMessage message or plain object to encode
              * @param [writer] Writer to encode to
              * @returns Writer
              */
-            public static encode(message: proto.Message.IEncEventUpdateMessage, writer?: $protobuf.Writer): $protobuf.Writer;
+            public static encode(message: proto.Message.IEncEventResponseMessage, writer?: $protobuf.Writer): $protobuf.Writer;
 
             /**
-             * Encodes the specified EncEventUpdateMessage message, length delimited. Does not implicitly {@link proto.Message.EncEventUpdateMessage.verify|verify} messages.
-             * @param message EncEventUpdateMessage message or plain object to encode
+             * Encodes the specified EncEventResponseMessage message, length delimited. Does not implicitly {@link proto.Message.EncEventResponseMessage.verify|verify} messages.
+             * @param message EncEventResponseMessage message or plain object to encode
              * @param [writer] Writer to encode to
              * @returns Writer
              */
-            public static encodeDelimited(message: proto.Message.IEncEventUpdateMessage, writer?: $protobuf.Writer): $protobuf.Writer;
+            public static encodeDelimited(message: proto.Message.IEncEventResponseMessage, writer?: $protobuf.Writer): $protobuf.Writer;
 
             /**
-             * Decodes an EncEventUpdateMessage message from the specified reader or buffer.
+             * Decodes an EncEventResponseMessage message from the specified reader or buffer.
              * @param reader Reader or buffer to decode from
              * @param [length] Message length if known beforehand
-             * @returns EncEventUpdateMessage
+             * @returns EncEventResponseMessage
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.Message.EncEventUpdateMessage;
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.Message.EncEventResponseMessage;
 
             /**
-             * Decodes an EncEventUpdateMessage message from the specified reader or buffer, length delimited.
+             * Decodes an EncEventResponseMessage message from the specified reader or buffer, length delimited.
              * @param reader Reader or buffer to decode from
-             * @returns EncEventUpdateMessage
+             * @returns EncEventResponseMessage
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.Message.EncEventUpdateMessage;
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.Message.EncEventResponseMessage;
 
             /**
-             * Verifies an EncEventUpdateMessage message.
+             * Verifies an EncEventResponseMessage message.
              * @param message Plain object to verify
              * @returns `null` if valid, otherwise the reason why it is not
              */
             public static verify(message: { [k: string]: any }): (string|null);
 
             /**
-             * Creates an EncEventUpdateMessage message from a plain object. Also converts values to their respective internal types.
+             * Creates an EncEventResponseMessage message from a plain object. Also converts values to their respective internal types.
              * @param object Plain object
-             * @returns EncEventUpdateMessage
+             * @returns EncEventResponseMessage
              */
-            public static fromObject(object: { [k: string]: any }): proto.Message.EncEventUpdateMessage;
+            public static fromObject(object: { [k: string]: any }): proto.Message.EncEventResponseMessage;
 
             /**
-             * Creates a plain object from an EncEventUpdateMessage message. Also converts values to other types if specified.
-             * @param message EncEventUpdateMessage
+             * Creates a plain object from an EncEventResponseMessage message. Also converts values to other types if specified.
+             * @param message EncEventResponseMessage
              * @param [options] Conversion options
              * @returns Plain object
              */
-            public static toObject(message: proto.Message.EncEventUpdateMessage, options?: $protobuf.IConversionOptions): { [k: string]: any };
+            public static toObject(message: proto.Message.EncEventResponseMessage, options?: $protobuf.IConversionOptions): { [k: string]: any };
 
             /**
-             * Converts this EncEventUpdateMessage to JSON.
+             * Converts this EncEventResponseMessage to JSON.
              * @returns JSON object
              */
             public toJSON(): { [k: string]: any };
@@ -13314,102 +13326,6 @@ export namespace proto {
 
             /**
              * Converts this EncReactionMessage to JSON.
-             * @returns JSON object
-             */
-            public toJSON(): { [k: string]: any };
-        }
-
-        /** Properties of an EventEditMessage. */
-        interface IEventEditMessage {
-
-            /** EventEditMessage eventEditMessage */
-            eventEditMessage?: (proto.Message.IEventMessage|null);
-
-            /** EventEditMessage editTimestampMs */
-            editTimestampMs?: (number|Long|null);
-        }
-
-        /** Represents an EventEditMessage. */
-        class EventEditMessage implements IEventEditMessage {
-
-            /**
-             * Constructs a new EventEditMessage.
-             * @param [properties] Properties to set
-             */
-            constructor(properties?: proto.Message.IEventEditMessage);
-
-            /** EventEditMessage eventEditMessage. */
-            public eventEditMessage?: (proto.Message.IEventMessage|null);
-
-            /** EventEditMessage editTimestampMs. */
-            public editTimestampMs: (number|Long);
-
-            /**
-             * Creates a new EventEditMessage instance using the specified properties.
-             * @param [properties] Properties to set
-             * @returns EventEditMessage instance
-             */
-            public static create(properties?: proto.Message.IEventEditMessage): proto.Message.EventEditMessage;
-
-            /**
-             * Encodes the specified EventEditMessage message. Does not implicitly {@link proto.Message.EventEditMessage.verify|verify} messages.
-             * @param message EventEditMessage message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            public static encode(message: proto.Message.IEventEditMessage, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Encodes the specified EventEditMessage message, length delimited. Does not implicitly {@link proto.Message.EventEditMessage.verify|verify} messages.
-             * @param message EventEditMessage message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            public static encodeDelimited(message: proto.Message.IEventEditMessage, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Decodes an EventEditMessage message from the specified reader or buffer.
-             * @param reader Reader or buffer to decode from
-             * @param [length] Message length if known beforehand
-             * @returns EventEditMessage
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.Message.EventEditMessage;
-
-            /**
-             * Decodes an EventEditMessage message from the specified reader or buffer, length delimited.
-             * @param reader Reader or buffer to decode from
-             * @returns EventEditMessage
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.Message.EventEditMessage;
-
-            /**
-             * Verifies an EventEditMessage message.
-             * @param message Plain object to verify
-             * @returns `null` if valid, otherwise the reason why it is not
-             */
-            public static verify(message: { [k: string]: any }): (string|null);
-
-            /**
-             * Creates an EventEditMessage message from a plain object. Also converts values to their respective internal types.
-             * @param object Plain object
-             * @returns EventEditMessage
-             */
-            public static fromObject(object: { [k: string]: any }): proto.Message.EventEditMessage;
-
-            /**
-             * Creates a plain object from an EventEditMessage message. Also converts values to other types if specified.
-             * @param message EventEditMessage
-             * @param [options] Conversion options
-             * @returns Plain object
-             */
-            public static toObject(message: proto.Message.EventEditMessage, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-            /**
-             * Converts this EventEditMessage to JSON.
              * @returns JSON object
              */
             public toJSON(): { [k: string]: any };
@@ -13645,102 +13561,6 @@ export namespace proto {
                 GOING = 1,
                 NOT_GOING = 2
             }
-        }
-
-        /** Properties of an EventUpdateMessage. */
-        interface IEventUpdateMessage {
-
-            /** EventUpdateMessage response */
-            response?: (proto.Message.IEventResponseMessage|null);
-
-            /** EventUpdateMessage edit */
-            edit?: (proto.Message.IEventEditMessage|null);
-        }
-
-        /** Represents an EventUpdateMessage. */
-        class EventUpdateMessage implements IEventUpdateMessage {
-
-            /**
-             * Constructs a new EventUpdateMessage.
-             * @param [properties] Properties to set
-             */
-            constructor(properties?: proto.Message.IEventUpdateMessage);
-
-            /** EventUpdateMessage response. */
-            public response?: (proto.Message.IEventResponseMessage|null);
-
-            /** EventUpdateMessage edit. */
-            public edit?: (proto.Message.IEventEditMessage|null);
-
-            /**
-             * Creates a new EventUpdateMessage instance using the specified properties.
-             * @param [properties] Properties to set
-             * @returns EventUpdateMessage instance
-             */
-            public static create(properties?: proto.Message.IEventUpdateMessage): proto.Message.EventUpdateMessage;
-
-            /**
-             * Encodes the specified EventUpdateMessage message. Does not implicitly {@link proto.Message.EventUpdateMessage.verify|verify} messages.
-             * @param message EventUpdateMessage message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            public static encode(message: proto.Message.IEventUpdateMessage, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Encodes the specified EventUpdateMessage message, length delimited. Does not implicitly {@link proto.Message.EventUpdateMessage.verify|verify} messages.
-             * @param message EventUpdateMessage message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            public static encodeDelimited(message: proto.Message.IEventUpdateMessage, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Decodes an EventUpdateMessage message from the specified reader or buffer.
-             * @param reader Reader or buffer to decode from
-             * @param [length] Message length if known beforehand
-             * @returns EventUpdateMessage
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.Message.EventUpdateMessage;
-
-            /**
-             * Decodes an EventUpdateMessage message from the specified reader or buffer, length delimited.
-             * @param reader Reader or buffer to decode from
-             * @returns EventUpdateMessage
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.Message.EventUpdateMessage;
-
-            /**
-             * Verifies an EventUpdateMessage message.
-             * @param message Plain object to verify
-             * @returns `null` if valid, otherwise the reason why it is not
-             */
-            public static verify(message: { [k: string]: any }): (string|null);
-
-            /**
-             * Creates an EventUpdateMessage message from a plain object. Also converts values to their respective internal types.
-             * @param object Plain object
-             * @returns EventUpdateMessage
-             */
-            public static fromObject(object: { [k: string]: any }): proto.Message.EventUpdateMessage;
-
-            /**
-             * Creates a plain object from an EventUpdateMessage message. Also converts values to other types if specified.
-             * @param message EventUpdateMessage
-             * @param [options] Conversion options
-             * @returns Plain object
-             */
-            public static toObject(message: proto.Message.EventUpdateMessage, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-            /**
-             * Converts this EventUpdateMessage to JSON.
-             * @returns JSON object
-             */
-            public toJSON(): { [k: string]: any };
         }
 
         /** Properties of an ExtendedTextMessage. */
@@ -15265,6 +15085,9 @@ export namespace proto {
 
             /** ImageMessage annotations */
             annotations?: (proto.IInteractiveAnnotation[]|null);
+
+            /** ImageMessage imageSourceType */
+            imageSourceType?: (proto.Message.ImageMessage.ImageSourceType|null);
         }
 
         /** Represents an ImageMessage. */
@@ -15357,6 +15180,9 @@ export namespace proto {
             /** ImageMessage annotations. */
             public annotations: proto.IInteractiveAnnotation[];
 
+            /** ImageMessage imageSourceType. */
+            public imageSourceType: proto.Message.ImageMessage.ImageSourceType;
+
             /**
              * Creates a new ImageMessage instance using the specified properties.
              * @param [properties] Properties to set
@@ -15426,6 +15252,15 @@ export namespace proto {
              * @returns JSON object
              */
             public toJSON(): { [k: string]: any };
+        }
+
+        namespace ImageMessage {
+
+            /** ImageSourceType enum. */
+            enum ImageSourceType {
+                USER_IMAGE = 0,
+                AI_GENERATED = 1
+            }
         }
 
         /** Properties of an InitialSecurityNotificationSettingSync. */
@@ -16059,6 +15894,9 @@ export namespace proto {
 
                 /** Header locationMessage */
                 locationMessage?: (proto.Message.ILocationMessage|null);
+
+                /** Header productMessage */
+                productMessage?: (proto.Message.IProductMessage|null);
             }
 
             /** Represents a Header. */
@@ -16094,8 +15932,11 @@ export namespace proto {
                 /** Header locationMessage. */
                 public locationMessage?: (proto.Message.ILocationMessage|null);
 
+                /** Header productMessage. */
+                public productMessage?: (proto.Message.IProductMessage|null);
+
                 /** Header media. */
-                public media?: ("documentMessage"|"imageMessage"|"jpegThumbnail"|"videoMessage"|"locationMessage");
+                public media?: ("documentMessage"|"imageMessage"|"jpegThumbnail"|"videoMessage"|"locationMessage"|"productMessage");
 
                 /**
                  * Creates a new Header instance using the specified properties.
@@ -21934,6 +21775,123 @@ export namespace proto {
             }
         }
 
+        /** Properties of a SecretEncryptedMessage. */
+        interface ISecretEncryptedMessage {
+
+            /** SecretEncryptedMessage targetMessageKey */
+            targetMessageKey?: (proto.IMessageKey|null);
+
+            /** SecretEncryptedMessage encPayload */
+            encPayload?: (Uint8Array|null);
+
+            /** SecretEncryptedMessage encIv */
+            encIv?: (Uint8Array|null);
+
+            /** SecretEncryptedMessage secretEncType */
+            secretEncType?: (proto.Message.SecretEncryptedMessage.SecretEncType|null);
+        }
+
+        /** Represents a SecretEncryptedMessage. */
+        class SecretEncryptedMessage implements ISecretEncryptedMessage {
+
+            /**
+             * Constructs a new SecretEncryptedMessage.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: proto.Message.ISecretEncryptedMessage);
+
+            /** SecretEncryptedMessage targetMessageKey. */
+            public targetMessageKey?: (proto.IMessageKey|null);
+
+            /** SecretEncryptedMessage encPayload. */
+            public encPayload: Uint8Array;
+
+            /** SecretEncryptedMessage encIv. */
+            public encIv: Uint8Array;
+
+            /** SecretEncryptedMessage secretEncType. */
+            public secretEncType: proto.Message.SecretEncryptedMessage.SecretEncType;
+
+            /**
+             * Creates a new SecretEncryptedMessage instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns SecretEncryptedMessage instance
+             */
+            public static create(properties?: proto.Message.ISecretEncryptedMessage): proto.Message.SecretEncryptedMessage;
+
+            /**
+             * Encodes the specified SecretEncryptedMessage message. Does not implicitly {@link proto.Message.SecretEncryptedMessage.verify|verify} messages.
+             * @param message SecretEncryptedMessage message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: proto.Message.ISecretEncryptedMessage, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified SecretEncryptedMessage message, length delimited. Does not implicitly {@link proto.Message.SecretEncryptedMessage.verify|verify} messages.
+             * @param message SecretEncryptedMessage message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: proto.Message.ISecretEncryptedMessage, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a SecretEncryptedMessage message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns SecretEncryptedMessage
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.Message.SecretEncryptedMessage;
+
+            /**
+             * Decodes a SecretEncryptedMessage message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns SecretEncryptedMessage
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.Message.SecretEncryptedMessage;
+
+            /**
+             * Verifies a SecretEncryptedMessage message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a SecretEncryptedMessage message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns SecretEncryptedMessage
+             */
+            public static fromObject(object: { [k: string]: any }): proto.Message.SecretEncryptedMessage;
+
+            /**
+             * Creates a plain object from a SecretEncryptedMessage message. Also converts values to other types if specified.
+             * @param message SecretEncryptedMessage
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: proto.Message.SecretEncryptedMessage, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this SecretEncryptedMessage to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
+
+        namespace SecretEncryptedMessage {
+
+            /** SecretEncType enum. */
+            enum SecretEncType {
+                UNKNOWN = 0,
+                EVENT_EDIT = 1
+            }
+        }
+
         /** Properties of a SendPaymentMessage. */
         interface ISendPaymentMessage {
 
@@ -23819,6 +23777,24 @@ export namespace proto {
 
         /** MsgOpaqueData encIv */
         encIv?: (Uint8Array|null);
+
+        /** MsgOpaqueData eventName */
+        eventName?: (string|null);
+
+        /** MsgOpaqueData isEventCanceled */
+        isEventCanceled?: (boolean|null);
+
+        /** MsgOpaqueData eventDescription */
+        eventDescription?: (string|null);
+
+        /** MsgOpaqueData eventJoinLink */
+        eventJoinLink?: (string|null);
+
+        /** MsgOpaqueData eventStartTime */
+        eventStartTime?: (number|Long|null);
+
+        /** MsgOpaqueData eventLocation */
+        eventLocation?: (proto.MsgOpaqueData.IEventLocation|null);
     }
 
     /** Represents a MsgOpaqueData. */
@@ -23920,6 +23896,24 @@ export namespace proto {
         /** MsgOpaqueData encIv. */
         public encIv: Uint8Array;
 
+        /** MsgOpaqueData eventName. */
+        public eventName: string;
+
+        /** MsgOpaqueData isEventCanceled. */
+        public isEventCanceled: boolean;
+
+        /** MsgOpaqueData eventDescription. */
+        public eventDescription: string;
+
+        /** MsgOpaqueData eventJoinLink. */
+        public eventJoinLink: string;
+
+        /** MsgOpaqueData eventStartTime. */
+        public eventStartTime: (number|Long);
+
+        /** MsgOpaqueData eventLocation. */
+        public eventLocation?: (proto.MsgOpaqueData.IEventLocation|null);
+
         /**
          * Creates a new MsgOpaqueData instance using the specified properties.
          * @param [properties] Properties to set
@@ -23992,6 +23986,126 @@ export namespace proto {
     }
 
     namespace MsgOpaqueData {
+
+        /** Properties of an EventLocation. */
+        interface IEventLocation {
+
+            /** EventLocation degreesLatitude */
+            degreesLatitude?: (number|null);
+
+            /** EventLocation degreesLongitude */
+            degreesLongitude?: (number|null);
+
+            /** EventLocation name */
+            name?: (string|null);
+
+            /** EventLocation address */
+            address?: (string|null);
+
+            /** EventLocation url */
+            url?: (string|null);
+
+            /** EventLocation jpegThumbnail */
+            jpegThumbnail?: (Uint8Array|null);
+        }
+
+        /** Represents an EventLocation. */
+        class EventLocation implements IEventLocation {
+
+            /**
+             * Constructs a new EventLocation.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: proto.MsgOpaqueData.IEventLocation);
+
+            /** EventLocation degreesLatitude. */
+            public degreesLatitude: number;
+
+            /** EventLocation degreesLongitude. */
+            public degreesLongitude: number;
+
+            /** EventLocation name. */
+            public name: string;
+
+            /** EventLocation address. */
+            public address: string;
+
+            /** EventLocation url. */
+            public url: string;
+
+            /** EventLocation jpegThumbnail. */
+            public jpegThumbnail: Uint8Array;
+
+            /**
+             * Creates a new EventLocation instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns EventLocation instance
+             */
+            public static create(properties?: proto.MsgOpaqueData.IEventLocation): proto.MsgOpaqueData.EventLocation;
+
+            /**
+             * Encodes the specified EventLocation message. Does not implicitly {@link proto.MsgOpaqueData.EventLocation.verify|verify} messages.
+             * @param message EventLocation message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encode(message: proto.MsgOpaqueData.IEventLocation, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified EventLocation message, length delimited. Does not implicitly {@link proto.MsgOpaqueData.EventLocation.verify|verify} messages.
+             * @param message EventLocation message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            public static encodeDelimited(message: proto.MsgOpaqueData.IEventLocation, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes an EventLocation message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns EventLocation
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.MsgOpaqueData.EventLocation;
+
+            /**
+             * Decodes an EventLocation message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns EventLocation
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.MsgOpaqueData.EventLocation;
+
+            /**
+             * Verifies an EventLocation message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates an EventLocation message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns EventLocation
+             */
+            public static fromObject(object: { [k: string]: any }): proto.MsgOpaqueData.EventLocation;
+
+            /**
+             * Creates a plain object from an EventLocation message. Also converts values to other types if specified.
+             * @param message EventLocation
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: proto.MsgOpaqueData.EventLocation, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this EventLocation to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
 
         /** Properties of a PollOption. */
         interface IPollOption {
@@ -36902,7 +37016,9 @@ export namespace proto {
             BIZ_BOT_3P_MESSAGING_ENABLED = 197,
             REMINDER_SETUP_MESSAGE = 198,
             REMINDER_SENT_MESSAGE = 199,
-            REMINDER_CANCEL_MESSAGE = 200
+            REMINDER_CANCEL_MESSAGE = 200,
+            BIZ_COEX_PRIVACY_INIT = 201,
+            BIZ_COEX_PRIVACY_TRANSITION = 202
         }
     }
 
