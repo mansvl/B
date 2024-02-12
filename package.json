@@ -14,7 +14,7 @@
   ],
   "homepage": "https://github.com/WhiskeySockets/Baileys",
   "repository": {
-    "url": "git@github.com:WhiskeySockets/Baileys.git"
+    "url": "git+ssh://git@github.com/WhiskeySockets/Baileys.git"
   },
   "license": "MIT",
   "author": "Adhiraj Singh",
