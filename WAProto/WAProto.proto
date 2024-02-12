@@ -126,6 +126,7 @@ message BotPluginMetadata {
     optional uint32 referenceIndex = 6;
     optional uint32 expectedLinksCount = 7;
     optional uint32 pluginVersion = 8;
+    optional string searchQuery = 9;
     enum PluginType {
         REELS = 1;
         SEARCH = 2;
@@ -1013,11 +1014,12 @@ message Message {
     optional BCallMessage bcallMessage = 72;
     optional FutureProofMessage lottieStickerMessage = 74;
     optional EventMessage eventMessage = 75;
+    optional EncEventResponseMessage encEventResponseMessage = 76;
     optional CommentMessage commentMessage = 77;
     optional NewsletterAdminInviteMessage newsletterAdminInviteMessage = 78;
     optional ExtendedTextMessageWithParentKey extendedTextMessageWithParentKey = 79;
     optional PlaceholderMessage placeholderMessage = 80;
-    optional EncEventUpdateMessage encEventUpdateMessage = 81;
+    optional SecretEncryptedMessage secretEncryptedMessage = 82;
     message AppStateFatalExceptionNotification {
         repeated string collectionNames = 1;
         optional int64 timestamp = 2;
@@ -1274,7 +1276,7 @@ message Message {
         optional bytes encIv = 3;
     }
     
-    message EncEventUpdateMessage {
+    message EncEventResponseMessage {
         optional MessageKey eventCreationMessageKey = 1;
         optional bytes encPayload = 2;
         optional bytes encIv = 3;
@@ -1284,11 +1286,6 @@ message Message {
         optional MessageKey targetMessageKey = 1;
         optional bytes encPayload = 2;
         optional bytes encIv = 3;
-    }
-    
-    message EventEditMessage {
-        optional Message.EventMessage eventEditMessage = 1;
-        optional int64 editTimestampMs = 2;
     }
     
     message EventMessage {
@@ -1309,11 +1306,6 @@ message Message {
             GOING = 1;
             NOT_GOING = 2;
         }
-    }
-    
-    message EventUpdateMessage {
-        optional Message.EventResponseMessage response = 1;
-        optional Message.EventEditMessage edit = 2;
     }
     
     message ExtendedTextMessage {
@@ -1500,6 +1492,11 @@ message Message {
         optional bytes thumbnailEncSha256 = 28;
         optional string staticUrl = 29;
         repeated InteractiveAnnotation annotations = 30;
+        optional ImageSourceType imageSourceType = 31;
+        enum ImageSourceType {
+            USER_IMAGE = 0;
+            AI_GENERATED = 1;
+        }
     }
     
     message InitialSecurityNotificationSettingSync {
@@ -1546,6 +1543,7 @@ message Message {
                 bytes jpegThumbnail = 6;
                 Message.VideoMessage videoMessage = 7;
                 Message.LocationMessage locationMessage = 8;
+                Message.ProductMessage productMessage = 9;
             }
         }
         
@@ -2006,6 +2004,17 @@ message Message {
         }
     }
     
+    message SecretEncryptedMessage {
+        optional MessageKey targetMessageKey = 1;
+        optional bytes encPayload = 2;
+        optional bytes encIv = 3;
+        optional SecretEncType secretEncType = 4;
+        enum SecretEncType {
+            UNKNOWN = 0;
+            EVENT_EDIT = 1;
+        }
+    }
+    
     message SendPaymentMessage {
         optional Message noteMessage = 2;
         optional MessageKey requestMessageKey = 3;
@@ -2191,6 +2200,21 @@ message MsgOpaqueData {
     optional string targetMessageKey = 30;
     optional bytes encPayload = 31;
     optional bytes encIv = 32;
+    optional string eventName = 33;
+    optional bool isEventCanceled = 34;
+    optional string eventDescription = 35;
+    optional string eventJoinLink = 36;
+    optional int64 eventStartTime = 37;
+    optional EventLocation eventLocation = 38;
+    message EventLocation {
+        optional double degreesLatitude = 1;
+        optional double degreesLongitude = 2;
+        optional string name = 3;
+        optional string address = 4;
+        optional string url = 5;
+        optional bytes jpegThumbnail = 6;
+    }
+    
     message PollOption {
         optional string name = 1;
     }
@@ -3333,6 +3357,8 @@ message WebMessageInfo {
         REMINDER_SETUP_MESSAGE = 198;
         REMINDER_SENT_MESSAGE = 199;
         REMINDER_CANCEL_MESSAGE = 200;
+        BIZ_COEX_PRIVACY_INIT = 201;
+        BIZ_COEX_PRIVACY_TRANSITION = 202;
     }
 }
 
