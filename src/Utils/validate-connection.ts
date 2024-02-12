@@ -10,7 +10,7 @@ import { createSignalIdentity } from './signal'
 
 const getUserAgent = (config: SocketConfig): proto.ClientPayload.IUserAgent => {
 	const osVersion = config.mobile ? '15.3.1' : '0.1'
-	const version = config.mobile ? [2, 22, 24] : config.version
+	const version = config.mobile ? [2, 24, 2] : config.version
 	const device = config.mobile ? 'iPhone_7' : 'Desktop'
 	const manufacturer = config.mobile ? 'Apple' : ''
 	const platform = config.mobile ? proto.ClientPayload.UserAgent.Platform.IOS : proto.ClientPayload.UserAgent.Platform.MACOS
@@ -80,8 +80,8 @@ export const generateLoginNode = (userJid: string, config: SocketConfig): proto.
 }
 
 const getPlatformType = (platform: string): proto.DeviceProps.PlatformType => {
-    const platformType = platform.toUpperCase()
-    return proto.DeviceProps.PlatformType[platformType] || proto.DeviceProps.PlatformType.DESKTOP
+	const platformType = platform.toUpperCase()
+	return proto.DeviceProps.PlatformType[platformType] || proto.DeviceProps.PlatformType.DESKTOP
 }
 
 export const generateRegistrationNode = (

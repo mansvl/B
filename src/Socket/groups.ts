@@ -63,8 +63,7 @@ export const makeGroupsSocket = (config: SocketConfig) => {
 			}
 		}
 
-		// fix for spam in groups
-		//sock.ev.emit("groups.update", Object.values(data))
+		sock.ev.emit('groups.update', Object.values(data))
 
 		return data
 	}
@@ -325,8 +324,7 @@ export const extractGroupMetadata = (result: BinaryNode) => {
 
 	const groupId = group.attrs.id.includes('@') ? group.attrs.id : jidEncode(group.attrs.id, 'g.us')
 	const eph = getBinaryNodeChild(group, 'ephemeral')?.attrs.expiration
-	const memberAddMode = getBinaryNodeChildString(group, 'member_add_mode') === "all_member_add"
-	const membership_approval_mode = getBinaryNodeChild(group, 'membership_approval_mode')
+	const memberAddMode = getBinaryNodeChildString(group, 'member_add_mode') === 'all_member_add'
 	const metadata: GroupMetadata = {
 		id: groupId,
 		subject: group.attrs.subject,
@@ -341,8 +339,8 @@ export const extractGroupMetadata = (result: BinaryNode) => {
 		announce: !!getBinaryNodeChild(group, 'announcement'),
 		isCommunity: !!getBinaryNodeChild(group, 'parent'),
 		isCommunityAnnounce: !!getBinaryNodeChild(group, 'default_sub_group'),
+		joinApprovalMode: !!getBinaryNodeChild(group, 'membership_approval_mode'),
 		memberAddMode,
-		joinApprovalMode: !!getBinaryNodeChild(membership_approval_mode, 'group_join'),
 		participants: getBinaryNodeChildren(group, 'participant').map(
 			({ attrs }) => {
 				return {

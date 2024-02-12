@@ -53,18 +53,49 @@ setInterval(() => {
 	store?.writeToFile('./baileys_store_multi.json')
 }, 10_000);
 
+function patchMessageBeforeSending(msg: proto.IMessage, jid: string[]): Promise<proto.IMessage> | proto.IMessage {
+    //console.log({ jid, msg: JSON.stringify(msg, null, 2) });
+    if (msg?.deviceSentMessage?.message?.listMessage) {
+        //msg.deviceSentMessage.message.listMessage.listType = proto.Message.ListMessage.ListType.SINGLE_SELECT;
+        console.log("ListType in deviceSentMessage is patched:", msg.deviceSentMessage.message.listMessage.listType);
+    };
+    
+    if (msg?.listMessage) {
+        //msg.listMessage.listType = proto.Message.ListMessage.ListType.SINGLE_SELECT;
+        console.log("ListType in listMessage is patched:", msg.listMessage.listType);
+    };
+    
+    const requiresPatch = !!(msg.buttonsMessage || msg.templateMessage || msg.listMessage);
+    if (requiresPatch) {
+        msg = {
+            viewOnceMessage: {
+                message: {
+                    messageContextInfo: {
+                        deviceListMetadata: {},
+                        deviceListMetadataVersion: 2
+                    },
+                    ...msg
+                }
+            }
+        };
+    };
+    
+    console.log(JSON.stringify(msg, null, 2));
+    return msg;
+};
+
 // start a connection
 const startSock = async() => {
 	const { state, saveCreds } = await useMultiFileAuthState('baileys_auth_info');
 	// fetch latest version of WA Web
 	const { version, isLatest } = await fetchLatestBaileysVersion();
 	console.log(`using WA v${version.join('.')}, isLatest: ${isLatest}`);
-	const browser = Browsers.macOS("Example");
+	const browser = Browsers.macOS("Safari");
 	
 	const sock = makeWASocket({
 		version,
 		logger,
-		...(usePairingCode ? { browser: ["Chrome (Mac OS)", browser[1], browser[2]] } : {}),
+		browser,
 		printQRInTerminal: !usePairingCode,
 		mobile: useMobile,
 		auth: {
@@ -72,6 +103,7 @@ const startSock = async() => {
 			/** caching makes the store faster to send/recv messages */
 			keys: makeCacheableSignalKeyStore(state.keys, logger),
 		},
+		syncFullHistory: false,
 		msgRetryCounterCache,
 		generateHighQualityLinkPreview: true,
 		// ignore all broadcast messages -- to receive the same
@@ -79,6 +111,7 @@ const startSock = async() => {
 		// shouldIgnoreJid: jid => isJidBroadcast(jid),
 		// implement to handle retries & poll updates
 		getMessage,
+		patchMessageBeforeSending
 	});
 	
 	store?.bind(sock.ev);
@@ -91,7 +124,7 @@ const startSock = async() => {
 		
 		const phoneNumber = await question('Please enter your mobile phone number:\n');
 		const code = await sock.requestPairingCode(phoneNumber);
-		console.log(`Pairing code: ${code?.match(/.{1,4}/g)?.join('-') || code}`);
+		console.log(`Pairing code for '${phoneNumber}': ${code?.match(/.{1,4}/g)?.join('-') || code}`);
 	};
 	
 	const reply = async (jid: string, msg: AnyMessageContent, options: object) => {
@@ -192,6 +225,24 @@ const startSock = async() => {
 				if (!usedPrefix) return;
 				console.log(`[Message]: ${m.pushName} > ${usedPrefix + command}`);
 				switch (command) {
+					case 'list':
+					    await sock.sendMessage(chat, {
+						    text: 'Hello World',
+						    footer: 'footer',
+						    buttonText: "PILIH SATU",
+						    sections: [{
+							    title: "section title",
+							    rows: [{
+								    title: "Ping",
+								    rowId: usedPrefix + "ping"
+								},
+								{
+									title: "Menu",
+									rowId: usedPrefix + "menu"
+								}]
+							}]
+						}, { quoted: m });
+					break;
 					case 'ping':
 						await reply(chat, { text: 'ok' }, { quoted: m })
 						break;

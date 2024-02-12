@@ -1,13 +1,13 @@
 import { Boom } from '@hapi/boom'
 import NodeCache from 'node-cache'
 import readline from 'readline'
-import makeWASocket, { AnyMessageContent, delay, DisconnectReason, fetchLatestBaileysVersion, getAggregateVotesInPollMessage, makeCacheableSignalKeyStore, makeInMemoryStore, PHONENUMBER_MCC, proto, useMultiFileAuthState, WAMessageContent, WAMessageKey, Browsers, getContentType } from '../src'
+import makeWASocket, { AnyMessageContent, delay, DisconnectReason, fetchLatestBaileysVersion, getAggregateVotesInPollMessage, makeCacheableSignalKeyStore, makeInMemoryStore, PHONENUMBER_MCC, proto, useMultiFileAuthState, WAMessageContent, WAMessageKey } from '../src'
 import MAIN_LOGGER from '../src/Utils/logger'
 import open from 'open'
 import fs from 'fs'
 
 const logger = MAIN_LOGGER.child({})
-//logger.level = ''
+logger.level = 'trace'
 
 const useStore = !process.argv.includes('--no-store')
 const doReplies = !process.argv.includes('--no-reply')
@@ -37,12 +37,10 @@ const startSock = async() => {
 	// fetch latest version of WA Web
 	const { version, isLatest } = await fetchLatestBaileysVersion()
 	console.log(`using WA v${version.join('.')}, isLatest: ${isLatest}`)
-	const browser = Browsers.macOS("Example");
 
 	const sock = makeWASocket({
 		version,
 		logger,
-		...(usePairingCode ? { browser: ["Chrome (Mac OS)", browser[1], browser[2]] } : {}),
 		printQRInTerminal: !usePairingCode,
 		mobile: useMobile,
 		auth: {
@@ -170,11 +168,6 @@ const startSock = async() => {
 			if(events['connection.update']) {
 				const update = events['connection.update']
 				const { connection, lastDisconnect } = update
-				const code = (lastDisconnect?.error as Boom)?.output?.statusCode || (lastDisconnect?.error as Boom)?.output?.payload?.statusCode
-				if (code) console.log({
-					code,
-					reason: DisconnectReason[code] || ''
-				})
 				if(connection === 'close') {
 					// reconnect if not logged out
 					if((lastDisconnect?.error as Boom)?.output?.statusCode !== DisconnectReason.loggedOut) {
@@ -214,24 +207,7 @@ const startSock = async() => {
 			// received a new message
 			if(events['messages.upsert']) {
 				const upsert = events['messages.upsert']
-				//console.log('recv messages ', JSON.stringify(upsert, undefined, 2))
-
-				for (let m of upsert.messages) {
-					if (!m) continue;
-					m = proto.WebMessageInfo.fromObject(m);
-					const msgType = m.message && getContentType(m.message) || m.message && Object.keys(m.message)[0] || '';
-					const msg = !m.message ? null : /viewOnceMessage/.test(msgType) ? m.message[Object.keys(m.message)[0]] : m.message[msgType];
-					const text = typeof msg === "string" ? msg
-						: msg && 'text' in msg && msg.text ? msg.text
-							: msg && 'caption' in msg && msg.caption ? msg.caption
-								: msg && 'contentText' in msg && msg.contentText ? msg.contentText
-									: '';
-
-					if (text && text.startsWith("> ") || text && text.startsWith("=> ")) {
-						let noPrefix = text.replace("=>", '').replace(">", '').trimStart();
-						sock.sendMessage(m.key?.remoteJid || '', { text: "ok\n" + noPrefix });
-					}
-				}
+				console.log('recv messages ', JSON.stringify(upsert, undefined, 2))
 
 				if(upsert.type === 'notify') {
 					for(const msg of upsert.messages) {
@@ -239,16 +215,16 @@ const startSock = async() => {
 							console.log('replying to', msg.key.remoteJid)
 							await sock!.readMessages([msg.key])
 							await sendMessageWTyping({ text: 'Hello there!' }, msg.key.remoteJid!)
-						};
+						}
 					}
 				}
 			}
 
 			// messages updated like status delivered, message deleted etc.
 			if(events['messages.update']) {
-				//console.log(
-				//	JSON.stringify(events['messages.update'], undefined, 2)
-				//)
+				console.log(
+					JSON.stringify(events['messages.update'], undefined, 2)
+				)
 
 				for(const { key, update } of events['messages.update']) {
 					if(update.pollUpdates) {
@@ -267,19 +243,19 @@ const startSock = async() => {
 			}
 
 			if(events['message-receipt.update']) {
-				//console.log("message-receipt.update:", events['message-receipt.update'])
+				console.log(events['message-receipt.update'])
 			}
 
 			if(events['messages.reaction']) {
-				console.log("messages.reaction:", events['messages.reaction'])
+				console.log(events['messages.reaction'])
 			}
 
 			if(events['presence.update']) {
-				//console.log("presence.update:", events['presence.update'])
+				console.log(events['presence.update'])
 			}
 
 			if(events['chats.update']) {
-				//console.log("chats.update:", events['chats.update'])
+				console.log(events['chats.update'])
 			}
 
 			if(events['contacts.update']) {
@@ -296,15 +272,7 @@ const startSock = async() => {
 			}
 
 			if(events['chats.delete']) {
-				console.log('chats deleted:', events['chats.delete'])
-			}
-
-			if(events['groups.update']) {
-				console.log("groups.update:", events["groups.update"]);
-				for (let event of events["groups.update"]) {
-					if (!event.id) continue;
-					sock.sendMessage(event.id, { text: '```' + JSON.stringify(event, null, 4) + '```' })
-				}
+				console.log('chats deleted ', events['chats.delete'])
 			}
 		}
 	)

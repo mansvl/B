@@ -80,8 +80,11 @@ type Listable = {
     /** Title of a List Message only */
     title?: string
 
-    /** Text of the bnutton on the list (required) */
+    /** Text of the button on the list (required) */
     buttonText?: string
+    
+    /** ListType of a List Message only */
+    listType?: proto.Message.ListMessage.ListType
 }
 type WithDimensions = {
     width?: number
@@ -165,12 +168,6 @@ export type AnyRegularMessageContent = (
         location: WALocationMessage
     }
     | { react: proto.Message.IReactionMessage }
-    | {
-        pinMessage: {
-            pinInChatMessage: proto.Message.IPinInChatMessage
-            duration: number
-        }
-    }
     | {
         buttonReply: ButtonReplyInfo
         type: 'template' | 'plain'

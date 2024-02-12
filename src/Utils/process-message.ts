@@ -264,6 +264,22 @@ const processMessage = async(
 				ephemeralExpiration: protocolMsg.ephemeralExpiration || null
 			})
 			break
+		case proto.Message.ProtocolMessage.Type.PEER_DATA_OPERATION_REQUEST_RESPONSE_MESSAGE:
+			const response = protocolMsg.peerDataOperationRequestResponseMessage!
+			if(response) {
+				const { peerDataOperationResult } = response
+				for(const result of peerDataOperationResult!) {
+					const { placeholderMessageResendResponse: retryResponse } = result
+					if(retryResponse) {
+						const webMessageInfo = proto.WebMessageInfo.decode(retryResponse.webMessageInfoBytes!)
+						ev.emit('messages.update', [
+							{ key: webMessageInfo.key, update: { message: webMessageInfo.message } }
+						])
+					}
+				}
+			}
+
+			break
 		}
 	} else if(content?.reactionMessage) {
 		const reaction: proto.IReaction = {
@@ -334,12 +350,12 @@ const processMessage = async(
 			emitGroupUpdate({ inviteCode: code })
 			break
 		case WAMessageStubType.GROUP_MEMBER_ADD_MODE:
-			const memberAddMode = message.messageStubParameters?.[0]
-			emitGroupUpdate({ memberAddMode: (memberAddMode === 'on' ? true : false) })
+			const memberAddValue = message.messageStubParameters?.[0]
+			emitGroupUpdate({ memberAddMode: memberAddValue === 'all_member_add' })
 			break
 		case WAMessageStubType.GROUP_MEMBERSHIP_JOIN_APPROVAL_MODE:
 			const approvalMode = message.messageStubParameters?.[0]
-			emitGroupUpdate({ joinApprovalMode: approvalMode === 'on' ? true : false })
+			emitGroupUpdate({ joinApprovalMode: approvalMode === 'on' })
 			break
 		}
 	} else if(content?.pollUpdateMessage) {

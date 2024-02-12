@@ -302,31 +302,35 @@ export const makeMessagesRecvSocket = (config: SocketConfig) => {
 			msg.messageStubParameters = [ child.attrs.code ]
 			break
 		case 'member_add_mode':
-			const memberAddMode = (Buffer.isBuffer(child.content) ? child.content.toString() : '');
-			msg.messageStubType = WAMessageStubType.GROUP_MEMBER_ADD_MODE
-			msg.messageStubParameters = [ memberAddMode === 'all_member_add' ? 'on' : 'off' ]
+			const addMode = child.content
+			if(addMode) {
+				msg.messageStubType = WAMessageStubType.GROUP_MEMBER_ADD_MODE
+				msg.messageStubParameters = [ addMode.toString() ]
+			}
+
 			break
 		case 'membership_approval_mode':
-			const approvalMode = getBinaryNodeChildren(child, 'group_join').map(p => p.attrs.state)
-			msg.messageStubType = WAMessageStubType.GROUP_MEMBERSHIP_JOIN_APPROVAL_MODE
-			msg.messageStubParameters = approvalMode
-			break
-		case 'membership_approval_request':
-			const request_method = child.attrs.request_method
-			if(request_method === 'invite_link') {
-				msg.messageStubType = WAMessageStubType.GROUP_MEMBERSHIP_JOIN_APPROVAL_REQUEST
-				msg.messageStubParameters = [ participant ]
-			} else if(request_method === 'non_admin_add') {
-				const participants = getBinaryNodeChildren(child, 'requested_user').map(p => p.attrs.jid)
-				msg.messageStubType = WAMessageStubType.GROUP_MEMBERSHIP_JOIN_APPROVAL_REQUEST_NON_ADMIN_ADD
-				msg.messageStubParameters = participants
+			const approvalMode: any = getBinaryNodeChild(child, 'group_join')
+			if(approvalMode) {
+				msg.messageStubType = WAMessageStubType.GROUP_MEMBERSHIP_JOIN_APPROVAL_MODE
+				msg.messageStubParameters = [ approvalMode.attrs.state ]
 			}
-			
+
 			break
+		case 'created_membership_requests':
+		    const request_method = child.attrs!.request_method
+		    if(request_method === 'non_admin_add') {
+			    const participants = getBinaryNodeChildren(child, 'requested_user').map(p => p.attrs.jid)
+			    msg.messageStubType = WAMessageStubType.GROUP_MEMBERSHIP_JOIN_APPROVAL_REQUEST
+			    msg.messageStubParameters = participants
+		    } else {
+			    msg.messageStubType = WAMessageStubType.GROUP_MEMBERSHIP_JOIN_APPROVAL_REQUEST
+			    msg.messageStubParameters = [ participant ]
+		    }
+
+		break
 		default:
-			const konten = Buffer.isBuffer(child.content) ? child.content.toString() : child.content;
-			child = { ...child, content: konten };
-			console.log("BAILEYS-DEBUG:", JSON.stringify({ ...child, participant }, null, 2))
+		    console.log("BAILEYS-DEBUG:", JSON.stringify({ ...child, content: Buffer.isBuffer(child.content) ? child.content.toString() : child.content, participant }, null, 2))
 		}
 	}
 
@@ -423,12 +427,11 @@ export const makeMessagesRecvSocket = (config: SocketConfig) => {
 				const blocklists = getBinaryNodeChildren(child, 'item')
 
 				for(const { attrs } of blocklists) {
-						const blocklist = [attrs.jid]
-						const type = (attrs.action === 'block') ? 'add' : 'remove'
-
-						ev.emit('blocklist.update', { blocklist, type })
+					const blocklist = [attrs.jid]
+					const type = (attrs.action === 'block') ? 'add' : 'remove'
+					ev.emit('blocklist.update', { blocklist, type })
 				}
-		}
+			}
 
 			break
 		case 'link_code_companion_reg':
