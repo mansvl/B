@@ -127,6 +127,7 @@ message BotPluginMetadata {
     optional uint32 expectedLinksCount = 7;
     optional uint32 pluginVersion = 8;
     optional string searchQuery = 9;
+    optional MessageKey parentPluginMessageKey = 10;
     enum PluginType {
         REELS = 1;
         SEARCH = 2;
@@ -921,7 +922,7 @@ message MediaEntry {
     }
     
     message ProgressiveJpegDetails {
-        repeated int64 scanLengths = 1;
+        repeated uint32 scanLengths = 1;
         optional bytes sidecar = 2;
     }
     
@@ -1017,7 +1018,6 @@ message Message {
     optional EncEventResponseMessage encEventResponseMessage = 76;
     optional CommentMessage commentMessage = 77;
     optional NewsletterAdminInviteMessage newsletterAdminInviteMessage = 78;
-    optional ExtendedTextMessageWithParentKey extendedTextMessageWithParentKey = 79;
     optional PlaceholderMessage placeholderMessage = 80;
     optional SecretEncryptedMessage secretEncryptedMessage = 82;
     message AppStateFatalExceptionNotification {
@@ -1355,11 +1355,6 @@ message Message {
             PLACEHOLDER = 4;
             IMAGE = 5;
         }
-    }
-    
-    message ExtendedTextMessageWithParentKey {
-        optional MessageKey key = 1;
-        optional Message.ExtendedTextMessage extendedTextMessage = 2;
     }
     
     message FutureProofMessage {
