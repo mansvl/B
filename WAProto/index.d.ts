@@ -1483,6 +1483,9 @@ export namespace proto {
 
         /** BotPluginMetadata searchQuery */
         searchQuery?: (string|null);
+
+        /** BotPluginMetadata parentPluginMessageKey */
+        parentPluginMessageKey?: (proto.IMessageKey|null);
     }
 
     /** Represents a BotPluginMetadata. */
@@ -1520,6 +1523,9 @@ export namespace proto {
 
         /** BotPluginMetadata searchQuery. */
         public searchQuery: string;
+
+        /** BotPluginMetadata parentPluginMessageKey. */
+        public parentPluginMessageKey?: (proto.IMessageKey|null);
 
         /**
          * Creates a new BotPluginMetadata instance using the specified properties.
@@ -9296,7 +9302,7 @@ export namespace proto {
         interface IProgressiveJpegDetails {
 
             /** ProgressiveJpegDetails scanLengths */
-            scanLengths?: ((number|Long)[]|null);
+            scanLengths?: (number[]|null);
 
             /** ProgressiveJpegDetails sidecar */
             sidecar?: (Uint8Array|null);
@@ -9312,7 +9318,7 @@ export namespace proto {
             constructor(properties?: proto.MediaEntry.IProgressiveJpegDetails);
 
             /** ProgressiveJpegDetails scanLengths. */
-            public scanLengths: (number|Long)[];
+            public scanLengths: number[];
 
             /** ProgressiveJpegDetails sidecar. */
             public sidecar: Uint8Array;
@@ -9812,9 +9818,6 @@ export namespace proto {
         /** Message newsletterAdminInviteMessage */
         newsletterAdminInviteMessage?: (proto.Message.INewsletterAdminInviteMessage|null);
 
-        /** Message extendedTextMessageWithParentKey */
-        extendedTextMessageWithParentKey?: (proto.Message.IExtendedTextMessageWithParentKey|null);
-
         /** Message placeholderMessage */
         placeholderMessage?: (proto.Message.IPlaceholderMessage|null);
 
@@ -10028,9 +10031,6 @@ export namespace proto {
 
         /** Message newsletterAdminInviteMessage. */
         public newsletterAdminInviteMessage?: (proto.Message.INewsletterAdminInviteMessage|null);
-
-        /** Message extendedTextMessageWithParentKey. */
-        public extendedTextMessageWithParentKey?: (proto.Message.IExtendedTextMessageWithParentKey|null);
 
         /** Message placeholderMessage. */
         public placeholderMessage?: (proto.Message.IPlaceholderMessage|null);
@@ -13820,102 +13820,6 @@ export namespace proto {
                 PLACEHOLDER = 4,
                 IMAGE = 5
             }
-        }
-
-        /** Properties of an ExtendedTextMessageWithParentKey. */
-        interface IExtendedTextMessageWithParentKey {
-
-            /** ExtendedTextMessageWithParentKey key */
-            key?: (proto.IMessageKey|null);
-
-            /** ExtendedTextMessageWithParentKey extendedTextMessage */
-            extendedTextMessage?: (proto.Message.IExtendedTextMessage|null);
-        }
-
-        /** Represents an ExtendedTextMessageWithParentKey. */
-        class ExtendedTextMessageWithParentKey implements IExtendedTextMessageWithParentKey {
-
-            /**
-             * Constructs a new ExtendedTextMessageWithParentKey.
-             * @param [properties] Properties to set
-             */
-            constructor(properties?: proto.Message.IExtendedTextMessageWithParentKey);
-
-            /** ExtendedTextMessageWithParentKey key. */
-            public key?: (proto.IMessageKey|null);
-
-            /** ExtendedTextMessageWithParentKey extendedTextMessage. */
-            public extendedTextMessage?: (proto.Message.IExtendedTextMessage|null);
-
-            /**
-             * Creates a new ExtendedTextMessageWithParentKey instance using the specified properties.
-             * @param [properties] Properties to set
-             * @returns ExtendedTextMessageWithParentKey instance
-             */
-            public static create(properties?: proto.Message.IExtendedTextMessageWithParentKey): proto.Message.ExtendedTextMessageWithParentKey;
-
-            /**
-             * Encodes the specified ExtendedTextMessageWithParentKey message. Does not implicitly {@link proto.Message.ExtendedTextMessageWithParentKey.verify|verify} messages.
-             * @param message ExtendedTextMessageWithParentKey message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            public static encode(message: proto.Message.IExtendedTextMessageWithParentKey, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Encodes the specified ExtendedTextMessageWithParentKey message, length delimited. Does not implicitly {@link proto.Message.ExtendedTextMessageWithParentKey.verify|verify} messages.
-             * @param message ExtendedTextMessageWithParentKey message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            public static encodeDelimited(message: proto.Message.IExtendedTextMessageWithParentKey, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Decodes an ExtendedTextMessageWithParentKey message from the specified reader or buffer.
-             * @param reader Reader or buffer to decode from
-             * @param [length] Message length if known beforehand
-             * @returns ExtendedTextMessageWithParentKey
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): proto.Message.ExtendedTextMessageWithParentKey;
-
-            /**
-             * Decodes an ExtendedTextMessageWithParentKey message from the specified reader or buffer, length delimited.
-             * @param reader Reader or buffer to decode from
-             * @returns ExtendedTextMessageWithParentKey
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): proto.Message.ExtendedTextMessageWithParentKey;
-
-            /**
-             * Verifies an ExtendedTextMessageWithParentKey message.
-             * @param message Plain object to verify
-             * @returns `null` if valid, otherwise the reason why it is not
-             */
-            public static verify(message: { [k: string]: any }): (string|null);
-
-            /**
-             * Creates an ExtendedTextMessageWithParentKey message from a plain object. Also converts values to their respective internal types.
-             * @param object Plain object
-             * @returns ExtendedTextMessageWithParentKey
-             */
-            public static fromObject(object: { [k: string]: any }): proto.Message.ExtendedTextMessageWithParentKey;
-
-            /**
-             * Creates a plain object from an ExtendedTextMessageWithParentKey message. Also converts values to other types if specified.
-             * @param message ExtendedTextMessageWithParentKey
-             * @param [options] Conversion options
-             * @returns Plain object
-             */
-            public static toObject(message: proto.Message.ExtendedTextMessageWithParentKey, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-            /**
-             * Converts this ExtendedTextMessageWithParentKey to JSON.
-             * @returns JSON object
-             */
-            public toJSON(): { [k: string]: any };
         }
 
         /** Properties of a FutureProofMessage. */
