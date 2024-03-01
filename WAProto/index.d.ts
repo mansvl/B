@@ -1478,9 +1478,6 @@ export namespace proto {
         /** BotPluginMetadata expectedLinksCount */
         expectedLinksCount?: (number|null);
 
-        /** BotPluginMetadata pluginVersion */
-        pluginVersion?: (number|null);
-
         /** BotPluginMetadata searchQuery */
         searchQuery?: (string|null);
 
@@ -1517,9 +1514,6 @@ export namespace proto {
 
         /** BotPluginMetadata expectedLinksCount. */
         public expectedLinksCount: number;
-
-        /** BotPluginMetadata pluginVersion. */
-        public pluginVersion: number;
 
         /** BotPluginMetadata searchQuery. */
         public searchQuery: string;
@@ -4253,6 +4247,9 @@ export namespace proto {
 
         /** ContextInfo dataSharingContext */
         dataSharingContext?: (proto.ContextInfo.IDataSharingContext|null);
+
+        /** ContextInfo alwaysShowAdAttribution */
+        alwaysShowAdAttribution?: (boolean|null);
     }
 
     /** Represents a ContextInfo. */
@@ -4362,6 +4359,9 @@ export namespace proto {
 
         /** ContextInfo dataSharingContext. */
         public dataSharingContext?: (proto.ContextInfo.IDataSharingContext|null);
+
+        /** ContextInfo alwaysShowAdAttribution. */
+        public alwaysShowAdAttribution: boolean;
 
         /**
          * Creates a new ContextInfo instance using the specified properties.
